@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: #FAFAFA;
+  --foreground: #1A1A1A;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+
+  /* Design Tokens */
+  --color-bg: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-accent: #4A9FA9;
+  --color-cta: #DE3030;
+  --color-border: #E0E0E0;
+
+  --radius-card: 10px;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.10);
+
+  /* Animations */
+  --animate-shimmer: shimmer 1.5s infinite linear;
+  --animate-scale-pulse: scale-pulse 0.3s ease-out;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes scale-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ── Base font-size fixed at 16px (100%) across all viewports ──
+   Fractional-px roots (110%, 120%) cause sub-pixel text rendering 
+   (blurry / pixelated). Use Tailwind's text-size classes for scaling. */
+html {
+  font-size: 100%; /* 16px — keeps every rem value on a whole pixel */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  /* safe-area padding for notched phones */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Shimmer gradient utility */
+.shimmer-bg {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+}
+
+/* Hide scrollbars (used for horizontal scroll strips) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe-area bottom spacing helper */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}

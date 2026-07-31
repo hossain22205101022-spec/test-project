@@ -1,0 +1,31 @@
+import { notFound } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
+import Link from 'next/link';
+import { ChevronLeft, Calendar, User, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient();
+  const { data: blog } = await supabase.from('blogs').select('title, content').eq('slug', params.slug).single();
+
+  if (!blog) { return { title: 'Not Found | StyleFeed' }; }
+
+  return {
+    title: `${blog.title} | StyleFeed Blog`,
+    description: blog.content.substring(0, 150),
+  };
+}
+
+export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
+  const supabase = await createClient();
+
+  const { data: blog, error } = await supabase.from('blogs').select('*').eq('slug', params.slug).single();
+
+  if (error || !blog) { notFound(); }
+
+  const readingTime = Math.ceil((blog.content || '').split(' ').length / 200) || 1;
+
+  
